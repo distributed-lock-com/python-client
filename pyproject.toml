@@ -12,6 +12,12 @@ python = "^3.8"
 httpx = "^0.24.1"
 
 
+[tool.poetry.group.dev.dependencies]
+black = "^23.7.0"
+ruff = "^0.0.278"
+mypy = "^1.4.1"
+pytest = "^7.4.0"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

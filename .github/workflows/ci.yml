@@ -1,0 +1,52 @@
+name: ci
+
+on:
+  push:
+
+env:
+  CACHE_VERSION: 1
+  POETRY_HOME: /opt/poetry
+  POETRY_CACHE: /opt/poetry_cache
+
+jobs:
+  lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+      - name: Cache deps install
+        id: cache-deps
+        uses: actions/cache@v3
+        with:
+          path: |
+            ${{ env.POETRY_HOME }}
+            ${{ env.POETRY_CACHE }}
+          key: cachepoetry-${{ hashFiles('poetry.lock') }}-${{ env.CACHE_VERSION }}
+      - name: Install poetry
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: |
+          python3 -m venv $POETRY_HOME
+          $POETRY_HOME/bin/pip install poetry
+      - name: Fix github path
+        run: |
+          echo "$POETRY_HOME/bin" >> "$GITHUB_PATH"
+      - name: Configure poetry
+        run: |
+          poetry config virtualenvs.create true
+          poetry config virtualenvs.in-project false
+          poetry config cache-dir $POETRY_CACHE
+          poetry config virtualenvs.path $POETRY_CACHE/venv
+      - name: Install requirements
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: |
+          poetry install --no-root
+      - name: Install
+        run: |
+          poetry install
+      - name: Run lint
+        run: |
+          poetry run make LINT_FIX=0 lint
