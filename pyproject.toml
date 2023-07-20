@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "distributed-lock"
+version = "0.1.0"
+description = ""
+authors = ["fab-dlock <fab@distributed-lock.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "distributed_lock"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+httpx = "^0.24.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
