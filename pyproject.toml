@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "distributed-lock"
+name = "distributed-lock-client"
 version = "0.1.0"
 description = ""
 authors = ["fab-dlock <fab@distributed-lock.com>"]
@@ -17,7 +17,27 @@ black = "^23.7.0"
 ruff = "^0.0.278"
 mypy = "^1.4.1"
 pytest = "^7.4.0"
+respx = "^0.20.2"
+pytest-cov = "^4.1.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+# Enable Pyflakes `E` and `F` codes by default.
+select = ["E", "F", "W", "N", "UP", "B", "I", "PL", "RUF"]
+ignore = [
+    "E501",
+    "PLR2004",
+    "PLR0913",
+    "PLW0603",
+    "N805",
+    "N818"
+]
+line-length = 88
+target-version = "py38"
+extend-exclude = []
+
+[tool.ruff.isort]
+required-imports = ["from __future__ import annotations"]

@@ -50,3 +50,6 @@ jobs:
       - name: Run lint
         run: |
           poetry run make LINT_FIX=0 lint
+      - name: Run test
+        run: |
+          poetry run make test

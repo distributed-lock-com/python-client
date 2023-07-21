@@ -1,4 +1,5 @@
 LINT_FIX = 1
+COVERAGE = 0
 
 .PHONY: lint_ruff
 lint_ruff:
@@ -22,3 +23,12 @@ lint_mypy:
 
 .PHONY: lint
 lint: lint_ruff lint_black lint_mypy
+
+.PHONY: test
+test:
+ifeq ($(COVERAGE),0)
+	pytest tests
+else
+	pytest --no-cov-on-fail --cov=distributed_lock --cov-report=term --cov-report=html --cov-report=xml tests
+endif
+
