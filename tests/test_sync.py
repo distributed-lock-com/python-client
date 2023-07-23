@@ -21,7 +21,13 @@ MOCKED_ENVIRON = {
     "DLOCK_TENANT_ID": "tenant_id",
     "DLOCK_TOKEN": "token",
 }
-AR = AcquiredRessource(lock_id="1234", resource="bar")
+AR = AcquiredRessource(
+    lock_id="1234",
+    resource="bar",
+    tenant_id="tenant_id",
+    user_agent="foo/1.0",
+    user_data={"foo": "bar"},
+)
 
 
 @mock.patch.dict(os.environ, MOCKED_ENVIRON, clear=True)
@@ -52,6 +58,11 @@ def test_acquire(respx_mock):
     assert ar is not None
     assert ar.lock_id == AR.lock_id
     assert ar.resource == AR.resource
+    assert ar.tenant_id == AR.tenant_id
+    assert ar.created.isoformat()[0:19] == AR.created.isoformat()[0:19]
+    assert ar.expires.isoformat()[0:19] == AR.expires.isoformat()[0:19]
+    assert ar.user_agent == AR.user_agent
+    assert ar.user_data == AR.user_data
 
 
 @mock.patch.dict(os.environ, MOCKED_ENVIRON, clear=True)
