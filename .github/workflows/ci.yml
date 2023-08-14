@@ -52,7 +52,11 @@ jobs:
           poetry run make LINT_FIX=0 lint
       - name: Run test
         run: |
-          poetry run make test
+          poetry run COVERAGE=1 make test
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       - name: Make apidocs
         run: |
           poetry run make apidoc
@@ -65,10 +69,10 @@ jobs:
   githubpages:
     runs-on: ubuntu-latest
     needs: lint_and_test
-    #permissions:
-    #  contents: read
-    #  pages: write
-    #  id-token: write
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     concurrency:
       group: "pages"
       cancel-in-progress: true
