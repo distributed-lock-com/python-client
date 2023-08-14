@@ -51,7 +51,8 @@ class AcquiredRessource:
         d2 = dict(d)
         for f in ("created", "expires"):
             if isinstance(d2[f], str):
-                d2[f] = datetime.datetime.fromisoformat(d2[f])
+                # Python < 3.9 has weird support of the "Z" suffix => let's replace by "+00:00"
+                d2[f] = datetime.datetime.fromisoformat(d2[f].replace("Z", "+00:00"))
         return cls(**d2)
 
     def to_dict(self) -> dict:
