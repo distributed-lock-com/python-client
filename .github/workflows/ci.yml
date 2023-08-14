@@ -52,7 +52,7 @@ jobs:
           poetry run make LINT_FIX=0 lint
       - name: Run test
         run: |
-          poetry run COVERAGE=1 make test
+          poetry run make COVERAGE=1 test
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         env:
@@ -62,6 +62,7 @@ jobs:
           poetry run make apidoc
       - name: Upload API doc as an artifact
         uses: actions/upload-artifact@v3
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         with:
           name: apidoc
           path: apihtml/
