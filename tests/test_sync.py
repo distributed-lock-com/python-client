@@ -9,7 +9,7 @@ import pytest
 
 from distributed_lock import (
     DEFAULT_LIFETIME,
-    DEFAULT_WAIT,
+    DEFAULT_SERVER_SIDE_WAIT,
     AcquiredRessource,
     DistributedLockClient,
     NotAcquiredException,
@@ -49,7 +49,7 @@ def test_acquire(respx_mock):
     ar = x.acquire_exclusive_lock("bar")
     assert len(respx_mock.calls) == 1
     body = json.loads(respx_mock.calls.last.request.content.decode("utf8"))
-    assert body["wait"] == DEFAULT_WAIT
+    assert body["wait"] == DEFAULT_SERVER_SIDE_WAIT
     assert body["lifetime"] == DEFAULT_LIFETIME
     headers = respx_mock.calls.last.request.headers
     assert headers["host"] == "cluster.distributed-lock.com"

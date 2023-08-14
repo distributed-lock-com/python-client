@@ -2,28 +2,36 @@ from __future__ import annotations
 
 
 class DistributedLockException(Exception):
+    """Base class for lock exceptions."""
+
     pass
 
 
-class DistributedLockError(DistributedLockException):
+class DistributedLockError(Exception):
+    """Base class for lock errors."""
+
     pass
 
 
 class BadConfigurationError(DistributedLockError):
+    """Bad configuration."""
+
     pass
 
 
 class NotAcquiredException(DistributedLockException):
-    pass
+    """Not acquired because the lock is still held by someone else."""
 
-
-class NotReleasedException(DistributedLockException):
     pass
 
 
 class NotReleasedError(DistributedLockError):
+    """Not released lock because some errors popped during the lock release."""
+
     pass
 
 
 class NotAcquiredError(DistributedLockError):
+    """Not acquired because some errors popped during the lock acquisition."""
+
     pass

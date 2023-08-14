@@ -32,3 +32,17 @@ else
 	pytest --no-cov-on-fail --cov=distributed_lock --cov-report=term --cov-report=html --cov-report=xml tests
 endif
 
+.PHONY: apidoc
+apidoc:
+	@rm -Rf apihtml
+	pdoc -d google -o apihtml distributed_lock
+
+.PHONY: clean
+clean:
+	rm -Rf apihtml htmlcov
+	rm -Rf .mypy_cache .ruff_cache .pytest_cache 
+	find . -type d -name __pycache__ -exec rm -Rf {} \; 2>/dev/null || true
+
+.PHONY: bump_version
+bump_version:
+	python ./bump_version.py

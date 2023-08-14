@@ -6,7 +6,7 @@ from unittest import mock
 import pytest
 
 from distributed_lock import DEFAULT_CLUSTER, BadConfigurationError
-from distributed_lock.sync import (
+from distributed_lock.common import (
     get_cluster,
     get_tenant_id,
     get_token,
