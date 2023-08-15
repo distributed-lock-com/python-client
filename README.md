@@ -1,6 +1,6 @@
 # python-client
 
-[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/distributed-lock-com/python-client/ci.yaml)](https://github.com/distributed-lock-com/python-client/actions/workflows/ci.yaml)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/distributed-lock-com/python-client/ci.yml)](https://github.com/distributed-lock-com/python-client/actions/workflows/ci.yml)
 [![Codecov](https://img.shields.io/codecov/c/github/distributed-lock-com/python-client)](https://app.codecov.io/github/distributed-lock-com/python-client)
 [![pypi badge](https://img.shields.io/pypi/v/python-client?color=brightgreen)](https://pypi.org/project/python-client/)
 
@@ -9,13 +9,15 @@
 
 This is a Python (3.7+) client library for https://distributed-lock.com SAAS.
 
-> **Note**
-> The asyncio support is planned but not here for the moment 🤷‍♂️
-
 ## What is it not?
 
 It's not a CLI (just a library). If you are looking for a good CLI binary, have a look at
 [our golang client](https://github.com/distributed-lock-com/go-client).
+
+## Roadmap
+
+- [ ] asyncio support
+- [ ] observability API
 
 ## How to use it?
 
