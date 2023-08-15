@@ -303,6 +303,37 @@ class DistributedLockClient:
         automatic_retry: bool = True,
         sleep_after_failure: float = 1.0,
     ):
+        """Acquire an exclusive lock and release it as a context manager.
+
+        Notes:
+            - the wait parameter is implemented as a mix of:
+                - server side wait (without polling) thanks to the server_side_wait property
+                - client side wait (with multiple calls if automatic_retry=True default)
+            - the most performant way to configure this is:
+                - to set server_side_wait (when creating the DistributedLockClient object)
+                  to the highest value allowed by your plan
+                - use the wait parameter here at the value of your choice
+
+        Args:
+            resource: the resource name to acquire.
+            lifetime: the lock max lifetime (in seconds).
+            wait: the maximum wait (in seconds) for acquiring the lock.
+            user_data: user_data to store with the lock (warning: it's not allowed with
+                all plans).
+            automatic_retry: if the operation fails (because of some errors or because the
+                lock is already held by someone else), if set to True, we are going to
+                try multiple times until the maximum wait delay.
+            sleep_after_failure: when doing multiple client side retry, let's sleep during
+                this number of seconds before retrying.
+
+        Raises:
+            NotAcquiredException: Can't acquire the lock (even after the wait time
+                and after automatic retries) because it's already held by
+                someone else after the wait time.
+            NotAcquiredError: Can't acquire the lock (even after the wait time
+                and after automatic retries) because some other errors raised.
+
+        """
         ar: AcquiredRessource | None = None
         try:
             ar = self.acquire_exclusive_lock(
